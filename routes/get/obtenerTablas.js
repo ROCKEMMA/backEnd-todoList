@@ -2,14 +2,18 @@ const db = require('../../config/database');
 const express = require('express');
 const router = express.Router();
 
+// Mi ruta get
 router.get('/tablas', async(req,res)=>{
+
     try {
-        const [tablas] = await db.query('SHOW TABLES');
-        console.log(tablas);
-        res.json(tablas);
+
+        let [resultadoTablas] = await db.query('SHOW TABLES');
+        res.json(resultadoTablas);
+        
     } catch (error) {
-        console.error(error);
+        console.log("Erro: ", error);
     }
+
 });
 
 module.exports = router;
