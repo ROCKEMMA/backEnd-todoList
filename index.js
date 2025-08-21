@@ -6,16 +6,24 @@ const cors = require('cors');
 const app = express();
 
 // CORS
-/* app.use(cors({
-    origin: ['http://localhost:5500'],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-})); */
 app.use(cors({
-    origin: "*",
+    origin: "*", //< ---------------
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.get('/health', (req, res) => res.status(200).json({ ok: true, ts: Date.now() }));
+
+app.get('/db', async (req, res) => {
+    try {
+        const [r] = await pool.query('SELECT NOW() AS now');
+        res.json({ ok: true, now: r[0].now });
+    } catch (e) {
+        console.error('[GET /db]', e);
+        res.status(500).json({ ok: false, error: e.code || e.message });
+    }
+});
+  
 
 /* ====== RUTAS ====== */
 const getTablas = require('./routes/get/obtenerTablas');
