@@ -6,8 +6,13 @@ const cors = require('cors');
 const app = express();
 
 // CORS
-app.use(cors({
+/* app.use(cors({
     origin: ['http://localhost:5500'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); */
+app.use(cors({
+    origin: "*",
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
